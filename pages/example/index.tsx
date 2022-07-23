@@ -8,22 +8,38 @@ type User = {
 
 const numArray = [1, 2, 3, 4, 5];
 
-const Example: NextPage = () => {
-  const [num, setNum] = useState<number[]>(numArray);
+type CountProps = {
+  title: string;
+};
 
-  const shuffle = () => {
-    const copyNum = [...num];
-    const iterator = copyNum[0];
-    copyNum.shift();
-    copyNum.push(iterator);
-    setNum(copyNum);
+const Count: React.FC<CountProps> = ({ title }) => {
+  const [count, setCount] = useState<number>(0);
+  const countUp = () => {
+    setCount(count + 1);
   };
-
   return (
     <div>
-      <p>{num}</p>
-      <button onClick={shuffle}>シャッフル</button>
+      <p>{title}</p>
+      <p>{count}</p>
+      <button onClick={countUp}>+</button>
     </div>
+  );
+};
+
+const Example: NextPage = () => {
+  const [toggle, setToggle] = useState<boolean>(false);
+  const toggleComponent = () => {
+    setToggle(!toggle);
+  };
+  return (
+    <>
+      {toggle ? (
+        <Count key={"A"} title={"A"}></Count>
+      ) : (
+        <Count key={"B"} title={"B"}></Count>
+      )}
+      <button onClick={toggleComponent}>コンポーネントの変更</button>
+    </>
   );
 };
 
