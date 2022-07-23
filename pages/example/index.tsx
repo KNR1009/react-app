@@ -6,24 +6,23 @@ type User = {
   age: number;
 };
 
-const Example: NextPage = () => {
-  const [user, setUser] = useState<User>({
-    name: "ken",
-    age: 12,
-  });
+const numArray = [1, 2, 3, 4, 5];
 
-  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setUser({ name: e.target.value, age: user.age });
+const Example: NextPage = () => {
+  const [num, setNum] = useState<number[]>(numArray);
+
+  const shuffle = () => {
+    const copyNum = [...num];
+    const iterator = copyNum[0];
+    copyNum.shift();
+    copyNum.push(iterator);
+    setNum(copyNum);
   };
-  const onChangeAge = (e: ChangeEvent<HTMLInputElement>) => {
-    setUser({ name: user.name, age: Number(e.target.value) });
-  };
+
   return (
     <div>
-      <p>{user.name}</p>
-      <p>{user.age}</p>
-      <input type="text" value={user.name} onChange={onChangeName} />
-      <input type="text" value={user.age} onChange={onChangeAge} />
+      <p>{num}</p>
+      <button onClick={shuffle}>シャッフル</button>
     </div>
   );
 };
