@@ -27,18 +27,23 @@ const Count: React.FC<CountProps> = ({ title }) => {
 };
 
 const Example: NextPage = () => {
-  const [toggle, setToggle] = useState<boolean>(false);
-  const toggleComponent = () => {
-    setToggle(!toggle);
+  // const inputNum = [1, 2, 3, 4];
+  const [inputNum, setInputNum] = useState<number[]>([1, 2, 3, 4]);
+  const onClick = () => {
+    const copy = [...inputNum];
+    copy.unshift(inputNum[inputNum.length - 1] + 1);
+    setInputNum(copy);
   };
   return (
     <>
-      {toggle ? (
-        <Count key={"A"} title={"A"}></Count>
-      ) : (
-        <Count key={"B"} title={"B"}></Count>
-      )}
-      <button onClick={toggleComponent}>コンポーネントの変更</button>
+      {inputNum.map((i, index) => (
+        <>
+          {i}:
+          <input type="text" key={index} />
+          <br />
+        </>
+      ))}
+      <button onClick={onClick}>入力フォームを増やす</button>
     </>
   );
 };
