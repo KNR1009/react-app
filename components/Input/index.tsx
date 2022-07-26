@@ -1,7 +1,12 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 
-export const Input = () => {
+type InputProps = {
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+export const Input: React.FC<InputProps> = () => {
   return (
     <InputContainer>
       <input type="text" />
