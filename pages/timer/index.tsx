@@ -1,26 +1,40 @@
 import type { NextPage } from "next";
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { useCallback } from "react";
+import { ChangeEvent, useEffect, useState, memo } from "react";
 import styled from "styled-components";
 
-const Example = () => {
-  useEffect(() => {
-    console.log("初回レンダリング");
-    return () => {
-      console.log("消えました");
-    };
-  }, []);
-  return <p>サンプルです</p>;
+type ChildProps = {
+  value: number;
+  onClick: () => void;
 };
 
+const Child: React.FC<ChildProps> = ({ value, onClick }) => {
+  console.log("レンダリングB");
+  return (
+    <>
+      <p>カウントB:{value}です</p>{" "}
+      <button onClick={onClick}>カウントBを増やす</button>
+    </>
+  );
+};
+
+const ChildMemo = React.memo(Child);
+
 const Todo: NextPage = () => {
-  const [isDisplay, setIsDisplay] = useState<boolean>(false);
-  const onClick = () => {
-    setIsDisplay(!isDisplay);
+  const [countA, setCountA] = useState<number>(0);
+  const [countB, setCountB] = useState<number>(0);
+  console.log("レンダリングA");
+  const addCountB = useCallback(() => {
+    setCountB(countB + 1);
+  }, []);
+  const addCountA = () => {
+    setCountA(countA + 1);
   };
   return (
     <Container>
-      {isDisplay && <Example />}
-      <button onClick={onClick}>トグル</button>
+      <ChildMemo value={countB} onClick={addCountB} />
+      <p>カウントA:{countA}です</p>
+      <button onClick={addCountA}>カウントAを増やす</button>
     </Container>
   );
 };

@@ -1,6 +1,9 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+type ChildProps = {
+  value: string;
+};
 
 const Example: NextPage = () => {
   const [inputId, setInputId] = useState<number[]>([1]);
@@ -13,7 +16,7 @@ const Example: NextPage = () => {
   return (
     <ExampleContainer>
       {inputId.map((i, index) => (
-        <div key={i}>
+        <div key={index}>
           <p>id:{i}</p>
           <input type="text" />
           <br />
@@ -28,7 +31,7 @@ const Example: NextPage = () => {
 export default Example;
 
 const ExampleContainer = styled.div`
-  padding: 200px;
+  padding: 300px;
   .input-container {
     width: 100px;
   }
