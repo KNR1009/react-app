@@ -11,7 +11,18 @@ type Post = {
 };
 
 const SSRPage: NextPage<{ posts: Post[] }> = (props) => {
-  return <SSRContainer>{/* <SSR title={title} num={num} /> */}</SSRContainer>;
+  return (
+    <SSRContainer>
+      {props.posts &&
+        props.posts.map((post) => (
+          <div key={post.id}>
+            <p>
+              {post.id}:{post.title}
+            </p>
+          </div>
+        ))}
+    </SSRContainer>
+  );
 };
 export default SSRPage;
 
