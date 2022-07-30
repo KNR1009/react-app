@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import React from "react";
 import styled from "styled-components";
 
@@ -10,9 +10,9 @@ type Post = {
   body: string;
 };
 
-const SSRPage: NextPage<{ posts: Post[] }> = (props) => {
+const SGPage: NextPage<{ posts: Post[] }> = (props) => {
   return (
-    <SSRContainer>
+    <SGContainer>
       {props.posts &&
         props.posts.map((post) => (
           <div key={post.id}>
@@ -21,20 +21,20 @@ const SSRPage: NextPage<{ posts: Post[] }> = (props) => {
             </p>
           </div>
         ))}
-    </SSRContainer>
+    </SGContainer>
   );
 };
-export default SSRPage;
+export default SGPage;
 
-const SSRContainer = styled.div`
+const SGContainer = styled.div`
   padding: 100px;
 `;
 
-// サーバサイドで実行する処理(getServerSideProps)を定義する
-export const getServerSideProps: GetServerSideProps<{ posts: Post[] }> = async (
+// ビルド時に実行される
+export const getStaticProps: GetStaticProps<{ posts: Post[] }> = async (
   context
 ) => {
-  console.log("getServerSideProps");
+  console.log("getStaticProps");
   const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
   const result = await res.data;
 
