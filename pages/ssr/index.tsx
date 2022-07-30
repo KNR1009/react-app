@@ -1,20 +1,17 @@
+import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { SSR } from "../../components/pages/ssr";
-import { getPosts } from "../api/jsonPlaceHolder";
 
-type Props = {
+type Post = {
+  userId: number;
+  id: number;
   title: string;
-  num: number;
+  body: string;
 };
 
-const SSRPage: NextPage<Props> = ({ title, num }) => {
-  return (
-    <SSRContainer>
-      <SSR title={title} num={num} />
-    </SSRContainer>
-  );
+const SSRPage: NextPage<{ posts: Post[] }> = (props) => {
+  return <SSRContainer>{/* <SSR title={title} num={num} /> */}</SSRContainer>;
 };
 export default SSRPage;
 
@@ -23,16 +20,22 @@ const SSRContainer = styled.div`
 `;
 
 // サーバサイドで実行する処理(getServerSideProps)を定義する
-export const getServerSideProps: GetServerSideProps<Props> = async (
+export const getServerSideProps: GetServerSideProps<{ posts: Post[] }> = async (
   context
 ) => {
-  // APIやDBからのデータ取得処理などを記載
-  const props: Props = {
-    title: "test",
-    num: 123,
-  };
+  const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
+  const result = await res.data;
+
+  const posts: Post[] = result.map((i: any) => {
+    return {
+      userId: i.userId,
+      id: i.id,
+      title: i.title,
+      body: i.body,
+    };
+  });
 
   return {
-    props: props,
+    props: { posts },
   };
 };
