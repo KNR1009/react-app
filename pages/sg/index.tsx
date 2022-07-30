@@ -30,7 +30,7 @@ const SGContainer = styled.div`
   padding: 100px;
 `;
 
-// ビルド時に実行される
+// ビルド時に実行
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = async (
   context
 ) => {
