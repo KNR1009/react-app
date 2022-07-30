@@ -1,40 +1,27 @@
+import axios from "axios";
 import type { NextPage } from "next";
-import React, { useCallback } from "react";
+import React, { lazy, Suspense, useCallback } from "react";
 import { ChangeEvent, useEffect, useState, memo } from "react";
 import styled from "styled-components";
+import { ComponentA } from "../../components/test/componentA";
 
-type ChildProps = {
-  value: number;
-  onClick: () => void;
-};
-
-const Child: React.FC<ChildProps> = ({ value, onClick }) => {
-  console.log("レンダリングB");
-  return (
-    <>
-      <p>カウントB:{value}です</p>{" "}
-      <button onClick={onClick}>カウントBを増やす</button>
-    </>
-  );
-};
-
-const ChildMemo = React.memo(Child);
-
+const LazyComponentA = lazy(() =>
+  import("../../components/test/componentA").then(({ ComponentA }) => ({
+    default: ComponentA,
+  }))
+);
 const Todo: NextPage = () => {
-  const [countA, setCountA] = useState<number>(0);
-  const [countB, setCountB] = useState<number>(0);
-  console.log("レンダリングA");
-  const addCountB = useCallback(() => {
-    setCountB(countB + 1);
-  }, []);
-  const addCountA = () => {
-    setCountA(countA + 1);
+  const [isDisplayA, setIsDisplayA] = useState<boolean>(false);
+  const onClick = () => {
+    setIsDisplayA(!isDisplayA);
   };
+  console.log(LazyComponentA);
   return (
     <Container>
-      <ChildMemo value={countB} onClick={addCountB} />
-      <p>カウントA:{countA}です</p>
-      <button onClick={addCountA}>カウントAを増やす</button>
+      <Suspense fallback={<div>loading</div>}>
+        {isDisplayA && <LazyComponentA />}
+      </Suspense>
+      <button onClick={onClick}>切り替え</button>
     </Container>
   );
 };
