@@ -1,7 +1,12 @@
 import type { NextPage } from "next";
 import React, { useState } from "react";
+import { Parent } from "../../components/practice";
 
-const Practice: NextPage = () => {
-  return <p>a</p>;
+const PracticePage: NextPage = () => {
+  return (
+    <>
+      <Parent />
+    </>
+  );
 };
-export default Practice;
+export default PracticePage;
