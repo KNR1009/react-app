@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 //   count: number;
 // };
 
-// export const Child: React.FC<ChildProps> = ({ count }) => {
-//   count = 30;
-//   return <p>{count}</p>;
-// };
+export const Child: React.FC<ChildProps> = ({ count }) => {
+  count = 30;
+  return <p>{count}</p>;
+};
 
 export const Parent: React.FC = () => {
   const [count, setCount] = useState<number>(0);
