@@ -5,7 +5,8 @@ import React, { useEffect, useState } from "react";
 // };
 
 export const Child: React.FC<ChildProps> = ({ count }) => {
-  count = 30;
+  count = 0;
+
   return <p>{count}</p>;
 };
 
