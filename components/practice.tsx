@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from "react";
 
-// type ChildProps = {
-//   count: number;
-// };
-
+type ChildProps = {
+  count: number;
+};
 export const Child: React.FC<ChildProps> = ({ count }) => {
-  count = 0;
-
-  return <p>{count}</p>;
+  console.log("子コンポーネントのレンダリング");
+  return <p>カウント: {count}</p>;
 };
 
 export const Parent: React.FC = () => {
+  const [value, setValue] = useState<string>("");
   const [count, setCount] = useState<number>(0);
-  const addCount = () => {
-    setCount(count + 1);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
   };
-  useEffect(() => {
-    console.log("カウントが増えました");
-  }, [count]);
+  console.log("親レンダリング");
   return (
     <>
-      <button onClick={addCount}>クリック</button>
-      <p>{count}</p>
+      <p>入力フォーム</p>
+      <input type="text" value={value} onChange={onChange} />
+      <p>入力値{value}</p>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        リセット
+      </button>
+      <Child count={count} />
     </>
   );
 };
